@@ -20,15 +20,11 @@ Single instances aren't a signal. Density is. Both axes use density-based scorin
 
 ## Why this skill exists
 
-Two failure modes ship live every day and need different fixes.
+AI-shaped prose is everywhere now. People skip it like banner ads, so reply rates drop along with conversion, and search engines have started demoting it. Word blacklists don't catch this. The real signal is how patterns stack inside a window, not the words themselves.
 
-**Failure mode 1: AI-shaped prose.** Word blacklists fail at this job because the signal isn't a single word, it's how often the patterns stack inside a fixed window. A skilled writer using AI as a research tool produces prose with zero blacklist hits that still reads as AI. Texture problems get fixed by replacing words and breaking patterns.
+There's also a second problem most tools miss. Even writing that isn't AI-shaped can lose its readers: undefined acronyms, wall-of-text paragraphs, expert prose written for the writer's brain instead of the reader's. Two failure modes, two fixes. Texture gets fixed by replacing words. Comprehension gets fixed by structure. So this skill runs both checks side by side.
 
-**Failure mode 2: comprehension friction.** Plenty of writing isn't AI-shaped at all and still fails its readers. Expert prose stuffed with undefined acronyms and named-entity drops, wall-of-text paragraphs with no skim layer, telegraphic colon-labels, curse-of-knowledge prose where the writer forgot what was hard to learn. Comprehension problems get fixed by structure and definition.
-
-Conflating the two produces bad audits. Pieces ship that should have been rewritten, and pieces get heavy-rewritten when a five-minute polish would have done the job. Hence two axes, two scores, one combined recommendation.
-
-The catalog ages out fast because tells evolve. The v1 vocabulary list (`delve`, `tapestry`, `intricate`) is largely sanded now; careful writers prompt around it. Today's survivors are the structural tells: copula avoidance, present-participle tails, hedge stacking, false ranges, "It's not X, it's Y" reversals. Maintenance is the price of staying useful.
+The catalog ages out because tells evolve. The v1 vocab list (`delve`, `tapestry`) is mostly sanded; today's survivors are structural: copula avoidance, hedge stacking, "It's not X, it's Y" reversals. So this catalog gets ongoing maintenance to stay useful.
 
 ---
 
