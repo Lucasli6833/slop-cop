@@ -840,7 +840,7 @@ def analyze(text, genre=None, strict_em_dash=False):
     word_counts = [count_words(s) for s in sentences]
     total_words = sum(word_counts)
 
-    em, en, dh = find_em_dashes(text)
+    em, en, dh = find_em_dashes(clean)
 
     # Genre detection
     detected_genre = detect_genre(clean)
