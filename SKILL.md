@@ -18,6 +18,20 @@ Single instances aren't a signal. Density is. Both axes use density-based scorin
 
 ---
 
+## Why this skill exists
+
+Two failure modes ship live every day and need different fixes.
+
+**Failure mode 1: AI-shaped prose.** Word blacklists fail at this job because the signal isn't a single word, it's how often the patterns stack inside a fixed window. A skilled writer using AI as a research tool produces prose with zero blacklist hits that still reads as AI. Texture problems get fixed by replacing words and breaking patterns.
+
+**Failure mode 2: comprehension friction.** Plenty of writing isn't AI-shaped at all and still fails its readers. Expert prose stuffed with undefined acronyms and named-entity drops, wall-of-text paragraphs with no skim layer, telegraphic colon-labels, curse-of-knowledge prose where the writer forgot what was hard to learn. Comprehension problems get fixed by structure and definition.
+
+Conflating the two produces bad audits. Pieces ship that should have been rewritten, and pieces get heavy-rewritten when a five-minute polish would have done the job. Hence two axes, two scores, one combined recommendation.
+
+The catalog ages out fast because tells evolve. The v1 vocabulary list (`delve`, `tapestry`, `intricate`) is largely sanded now; careful writers prompt around it. Today's survivors are the structural tells: copula avoidance, present-participle tails, hedge stacking, false ranges, "It's not X, it's Y" reversals. Maintenance is the price of staying useful.
+
+---
+
 ## Mode selection
 
 Two modes. Pick one based on what the user wants.

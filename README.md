@@ -23,6 +23,26 @@ Hand it a draft, get back two verdicts, two density scores, the exact things to 
 
 The scoring is density-based on both axes, which means a single `delve` or one undefined acronym in 1,000 words won't trip the verdict. Concentration per unit of text is the signal that matters. This README scores LOW on its own scanner.
 
+## Why this exists
+
+AI-shaped prose is now the default texture of the internet. **Most marketing pages, blog posts, and sales emails converge on one voice:** confident, hedge-stacked, em-dash-heavy, sycophantic, punctuated by "It's not X, it's Y" reversals. Readers learn the shape and start skipping it the way they learned to skip banner ads. Trust falls along with reply rates and conversion. Search engines have started demoting it.
+
+**Word blacklists fail at this job.** They flag legitimate uses of normal words and miss the actual problem, which is texture and concentration. A skilled writer using AI as a research tool produces prose with zero blacklist hits that still reads as AI. A carefully prompted model produces output that scores PASS on every blacklist and still feels off. The signal isn't a single word, it's how often the patterns stack inside a fixed window.
+
+**There's a second problem the AI-detection world has missed.** Plenty of writing isn't AI-shaped at all and still fails its readers. Expert prose stuffed with undefined acronyms, named-entity drops, and stat bombs. Wall-of-text paragraphs with no skim layer. Telegraphic colon-labels that feel sophisticated but communicate nothing to a cold reader. Curse-of-knowledge prose where the writer forgot what was hard to learn.
+
+A piece can pass every AI-shape check and still leave a fresh reader stranded. slop-cop exists because both failure modes ship live every day, and they need different fixes. Texture problems get fixed by replacing words and breaking patterns; comprehension problems get fixed by structure and definition.
+
+Conflating the two produces bad audits. Pieces ship that should have been rewritten, and pieces get heavy-rewritten when a five-minute polish would have done the job. So slop-cop runs the two checks in parallel, reports both verdicts, and shows which axis is driving the recommendation.
+
+## Why it has to keep being updated
+
+The catalog ages out fast. **The v1 vocabulary list (`delve`, `tapestry`, `intricate`) is largely sanded now.** Careful writers prompt around it, and several model providers train away from those exact words. The newer survivors are what matter today: copula avoidance (`serves as a`), present-participle tails (`X happened, demonstrating Y`), hedge stacking, false ranges, the "It's not X, it's Y" reversal. Those are the patterns that slip through current sanding.
+
+**Models change. Reinforcement-learning objectives change. Writer-side prompt engineering co-evolves with the detection literature.** A static blacklist from 2023 is mostly noise by 2026. Maintenance is the price of staying useful.
+
+The catalog updates with new spike data from PubMed and arXiv, viral takedowns from popular press, findings from AI-detector vendors, and patterns reported by the writing community. Both axes stay in scope. The AI-slop side gets new tells as models evolve. The comprehension side gets refined thresholds as readability research progresses and audience expectations shift.
+
 ## Sponsors
 
 <a href="https://givefeedback.dev"><img width="200" height="44" alt="givefeedback.dev" src="https://github.com/user-attachments/assets/7da9ef06-cc47-4aa5-94b1-2108a302439c" /></a>GiveFeedback.dev uses AI to turn client screen recordings into actionable tasks and prevent scope creep.
