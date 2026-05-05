@@ -20,11 +20,11 @@ Single instances aren't a signal. Density is. Both axes use density-based scorin
 
 ## Why this skill exists
 
-AI-shaped prose is everywhere now. People skip it like banner ads, so reply rates drop along with conversion, and search engines have started demoting it. Word blacklists don't catch this. The real signal is how patterns stack inside a window, not the words themselves.
+I kept getting the same complaint about my writing: "this sounds like ChatGPT." It didn't. I wrote it. The texture of AI prose has crept into how everyone writes now, and tools that just ban words like `delve` flag legitimate writing while missing the actual problem, which is how patterns pile up inside a paragraph.
 
-There's also a second problem most tools miss. Even writing that isn't AI-shaped can lose its readers: undefined acronyms, wall-of-text paragraphs, expert prose written for the writer's brain instead of the reader's. Two failure modes, two fixes. Texture gets fixed by replacing words. Comprehension gets fixed by structure. So this skill runs both checks side by side.
+While building the first axis I noticed a second issue the AI-detection world ignores. Some writing isn't AI-shaped at all and still doesn't read. A founder's TL;DR with seven undefined acronyms in three sentences. A B2B pitch with twelve named entities the reader has never heard of. So this skill runs two checks: AI texture and reader comprehension. They catch different problems.
 
-The catalog ages out because tells evolve. The v1 vocab list (`delve`, `tapestry`) is mostly sanded; today's survivors are structural: copula avoidance, hedge stacking, "It's not X, it's Y" reversals. So this catalog gets ongoing maintenance to stay useful.
+The catalog has to keep moving. Six months after v1, the famous tells (`delve`, `tapestry`, `intricate`) were all sanded; careful writers prompted around them. The survivors today are structural: copula avoidance, hedge stacks of three, "It's not X, it's Y" reversals. Writers dodge them, models change underneath, and a static catalog from 2023 is mostly noise by 2026.
 
 ---
 

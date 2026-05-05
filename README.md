@@ -23,19 +23,19 @@ Hand it a draft, get back two verdicts, two density scores, the exact things to 
 
 The scoring is density-based on both axes, which means a single `delve` or one undefined acronym in 1,000 words won't trip the verdict. Concentration per unit of text is the signal that matters. This README scores LOW on its own scanner.
 
-## Why this exists
+## Why I built this
 
-AI-shaped prose is everywhere now. People learned the shape and skip it like banner ads, so reply rates drop along with conversion, and search engines have started demoting it.
+I kept getting the same complaint about my own writing: "this sounds like ChatGPT." It didn't. I wrote it. But the complaint stuck, because the texture of AI prose has crept into how everyone writes now: the em dashes, the "It's not X, it's Y," the confident hedge-stacking. Even people complaining about AI slop are writing in it.
 
-The usual defense is a word blacklist. That doesn't help. A single `delve` proves nothing, and a careful prompt dodges every blacklist while still feeling off. The real signal is how patterns stack inside a window, not the words themselves.
+Every tool I tried said the same thing: ban these words. That's nonsense. The famous cliché list is just a bunch of words. The signal is how often the patterns pile up inside a paragraph, not the patterns themselves. So I built the first axis to count concentration and flag the spikes.
 
-There's also a second problem most tools miss. Even writing that isn't AI-shaped can lose its readers: undefined acronyms, wall-of-text paragraphs, expert prose written for the writer's brain instead of the reader's. A piece can pass every AI check and still leave a fresh reader stranded.
+While using it I noticed something the AI-detection world has somehow ignored. Some writing is dense, jargon-stuffed, expert-coded, and it doesn't read AI at all. It just doesn't read. A founder's TL;DR with seven undefined acronyms in three sentences. A B2B pitch packed with twelve named entities the reader has never heard of. The kind of prose that ships because the writer thinks "this looks tight" and the reader bounces in five seconds.
 
-That's two failure modes with two different fixes. Texture gets fixed by replacing words. Comprehension gets fixed by structure. So slop-cop runs both checks side by side.
+So I added a second axis. Whether AI wrote it doesn't matter. The question is whether a real person can follow it.
 
-## Why it keeps getting updated
+## Why I keep updating it
 
-Tells evolve. The v1 vocab list (`delve`, `tapestry`) is mostly sanded; careful writers prompt around it. Today's survivors are structural: copula avoidance, hedge stacking, the "It's not X, it's Y" reversal. A static catalog from 2023 is mostly noise by 2026, so this one ships updates as models change and prompting evolves.
+The first version had a hard-coded blacklist of cliché words. Six months later everyone had prompted around them. The survivors are structural: copula avoidance, hedge stacks of three, the "It's not X, it's Y" reversal. Writers dodge. Models change. The catalog has to move with both or it ages out inside a year.
 
 ## Sponsors
 
