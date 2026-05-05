@@ -439,6 +439,37 @@ THROAT_CLEARING = [
 # Whether-or openers (12)
 WHETHER_OR = re.compile(r"^\s*Whether you'?re\s+", re.IGNORECASE | re.MULTILINE)
 
+# 20. Both-sides-ism — on one hand / on the other hand
+BOTH_SIDES = [
+    r"\bon (?:the )?one hand\b",
+    r"\bon the other hand\b",
+    r"\bboth (?:sides|perspectives) have merit\b",
+    r"\badvantages and disadvantages\b",
+]
+
+# 22. The "real" tic — "real X" as an authenticity intensifier
+REAL_TIC = re.compile(
+    r"\breal\s+(?:money|stakes|outcomes|connection|impact|results|deal|talk|research|world)\b",
+    re.IGNORECASE,
+)
+
+# 34. Vapid analogies — "Think of it as a", "It's like having a"
+VAPID_ANALOGY = [
+    r"\bThink of it as (?:a |an |the )",
+    r"\bIt'?s like having (?:a |an )",
+    r"\bImagine it as (?:a |an )",
+    r"\bIt'?s the (?:Uber|Airbnb|Spotify|Netflix) of\b",
+]
+
+# 39. Historical analogy stacking — printing press / electricity / internet within ~150 chars
+HISTORICAL_ANALOGY = re.compile(
+    r"\b(?:printing press|electricity|internet|industrial revolution|wheel|fire|atomic age)\b",
+    re.IGNORECASE,
+)
+
+# 38. Dead-metaphor repetition — count cliché metaphor reuse
+DEAD_METAPHORS = ["journey", "landscape", "tapestry", "ecosystem", "realm", "beacon", "symphony", "tide"]
+
 # =============================================================================
 # MODEL FINGERPRINT MARKERS
 # =============================================================================
@@ -551,8 +582,10 @@ def find_short_sentence_clusters(sentences, threshold=8, min_run=3):
     return runs
 
 
-def find_two_word_punchlines(sentences, short_max=4, long_min=20):
-    """Find any sentence ≤short_max words preceded by one ≥long_min words."""
+def find_two_word_punchlines(sentences, short_max=4, long_min=15):
+    """Find any sentence ≤short_max words preceded by one ≥long_min words.
+    Threshold lowered from 20 to 15 — patterns.md examples show real cases
+    with ~13-word setups (e.g. 'won against 5,800 builders. It works.')."""
     hits = []
     for i in range(1, len(sentences)):
         prev_wc = count_words(sentences[i - 1])
@@ -940,6 +973,17 @@ def analyze(text, genre=None, strict_em_dash=False):
             "pedagogical": find_regex_hits(clean, PEDAGOGICAL),
             "royal_we": find_regex_hits(clean, ROYAL_WE),
             "whether_or_openers": len(WHETHER_OR.findall(clean)),
+            "both_sides_ism": find_regex_hits(clean, BOTH_SIDES),
+            "real_tic": len(REAL_TIC.findall(clean)),
+            "vapid_analogies": find_regex_hits(clean, VAPID_ANALOGY),
+            "historical_analogy_stacking": [
+                m for m in [HISTORICAL_ANALOGY.findall(clean)] if len(m) >= 3
+            ],
+            "dead_metaphor_repetition": [
+                (w, len(re.findall(r"\b" + w + r"\b", clean, flags=re.IGNORECASE)))
+                for w in DEAD_METAPHORS
+                if len(re.findall(r"\b" + w + r"\b", clean, flags=re.IGNORECASE)) >= 3
+            ],
         },
         "low": {
             "magic_adverbs": find_phrase_hits(clean, MAGIC_ADVERBS),
@@ -998,6 +1042,11 @@ def analyze(text, genre=None, strict_em_dash=False):
         + sum(c for _, c, _ in result["medium"]["pedagogical"])
         + sum(c for _, c, _ in result["medium"]["royal_we"])
         + result["medium"]["whether_or_openers"]
+        + sum(c for _, c, _ in result["medium"]["both_sides_ism"])
+        + result["medium"]["real_tic"]
+        + sum(c for _, c, _ in result["medium"]["vapid_analogies"])
+        + len(result["medium"]["historical_analogy_stacking"])
+        + len(result["medium"]["dead_metaphor_repetition"])
     )
     low_count = (
         sum(c for _, c in result["low"]["magic_adverbs"])
