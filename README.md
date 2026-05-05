@@ -20,9 +20,7 @@ The scoring is density-based, which means a single `delve` or one em dash in 1,0
 
 ## Sponsors
 
-<a href="https://givefeedback.dev"><img width="220" alt="givefeedback.dev" src="https://img.shields.io/badge/sponsored%20by-givefeedback.dev-7c4dff?labelColor=0d0d0f&style=for-the-badge" /></a>
-
-[**GiveFeedback.dev**](https://givefeedback.dev) turns client screen recordings into actionable tasks so freelancers and agencies stop chasing scope creep.
+<a href="https://givefeedback.dev"><img width="200" height="44" alt="givefeedback.dev" src="https://github.com/user-attachments/assets/7da9ef06-cc47-4aa5-94b1-2108a302439c" /></a>GiveFeedback.dev uses AI to turn client screen recordings into actionable tasks and prevent scope creep.
 
 ## Install
 
