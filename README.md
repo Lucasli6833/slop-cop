@@ -16,7 +16,13 @@
 
 It catches 45 rhetorical patterns, around 150 vocabulary tells, and around 33 formatting tells documented across peer-reviewed linguistics (PubMed, arXiv, Nature, PLOS One), Wikipedia's canonical *Signs of AI writing* guide, vendor methodology pages (GPTZero, Pangram, Originality), and the practitioner literature.
 
-Single instances aren't a signal. Density is. slop-cop measures density, and the README you're reading passes its own test.
+The scoring is density-based, which means a single `delve` or one em dash in 1,000 words of otherwise human writing won't trip the verdict. Concentration per unit of text is the signal that matters. This README scores LOW on its own scanner.
+
+## Sponsors
+
+<a href="https://givefeedback.dev"><img width="220" alt="givefeedback.dev" src="https://img.shields.io/badge/sponsored%20by-givefeedback.dev-7c4dff?labelColor=0d0d0f&style=for-the-badge" /></a>
+
+[**GiveFeedback.dev**](https://givefeedback.dev) turns client screen recordings into actionable tasks so freelancers and agencies stop chasing scope creep.
 
 ## Install
 
@@ -84,9 +90,9 @@ A short list of the 20 most lethal items lives at the top of [`SKILL.md`](ai-slo
 
 ## Why slop-cop vs a phrase blacklist
 
-Every "AI phrase list" you've seen has the same problem. It flags a single `delve` or one em dash and calls the prose AI. Real writing uses these words. The signal isn't presence. It's concentration.
+Most AI-phrase blacklists treat a single `delve` or one em dash as proof of AI authorship, which fails because human writers reach for those same words all the time. The interesting question is how often the patterns appear within a fixed window. slop-cop scores by concentration per 500 words, weighted by severity, so a clean draft with one borderline word still passes.
 
-slop-cop ships a [calibration layer](ai-slop-detector/references/calibration.md) that other detectors skip:
+It ships a [calibration layer](ai-slop-detector/references/calibration.md) that other detectors skip:
 
 - **Density formula.** `(H × 3) + (M × 1) + (L × 0.25)` per 500 words. Single instances don't tip the verdict, clusters do.
 - **Genre adjustment.** Academic prose can use phrases like `studies show` with citations. Marketing copy uses some intensifiers. Encyclopedic prose triggers false positives because LLMs were trained on Wikipedia. The scanner detects genre and adjusts thresholds.

@@ -572,6 +572,29 @@ def find_negation_reversal_candidates(sentences):
     return hits
 
 
+def find_cross_sentence_negation(sentences):
+    """Detect 'X isn't/aren't/wasn't Y. It's/They're/X is Z.' across sentence pairs.
+    The negation-reveal pattern that the single-sentence regex misses."""
+    hits = []
+    neg_pattern = re.compile(
+        r"\b(?:isn't|is not|aren't|are not|wasn't|was not|weren't|were not)\b",
+        re.IGNORECASE,
+    )
+    affirm_start = re.compile(
+        r"^\s*(?:It'?s|It is|They'?re|They are|That'?s|That is|What it is)\b",
+        re.IGNORECASE,
+    )
+    for i in range(len(sentences) - 1):
+        cur = sentences[i]
+        nxt = sentences[i + 1]
+        # Both sentences must be reasonably short for the pattern to read as setup-reveal
+        if count_words(cur) > 25 or count_words(nxt) > 15:
+            continue
+        if neg_pattern.search(cur) and affirm_start.search(nxt):
+            hits.append((i, cur, nxt))
+    return hits
+
+
 def find_dramatic_countdown(sentences):
     """Find 2+ consecutive short sentences starting with 'Not'."""
     hits = []
@@ -892,11 +915,14 @@ def analyze(text, genre=None, strict_em_dash=False):
             "setup_reveal_endings": find_setup_reveal_endings(paragraphs),
             "fabricated_cases": find_fabricated_cases(clean),
             "buzzword_density": find_buzzword_density(paragraphs),
+            "negation_reversals": find_negation_reversal_candidates(sentences),
+            "cross_sentence_negation": find_cross_sentence_negation(sentences),
+            "short_sentence_clusters_h": [r for r in find_short_sentence_clusters(sentences) if len(r) >= 4],
         },
         "medium": {
-            "negation_reversals": find_negation_reversal_candidates(sentences),
             "dramatic_countdown": find_dramatic_countdown(sentences),
             "anaphora": find_anaphora(sentences),
+            "short_sentence_clusters_m": [r for r in find_short_sentence_clusters(sentences) if len(r) == 3],
             "two_word_punchlines": find_two_word_punchlines(sentences),
             "three_beat_stacks": find_three_beat_stacks(clean),
             "verbs_m": find_phrase_hits(clean, VERBS_M),
@@ -917,7 +943,6 @@ def analyze(text, genre=None, strict_em_dash=False):
         },
         "low": {
             "magic_adverbs": find_phrase_hits(clean, MAGIC_ADVERBS),
-            "short_sentence_clusters": find_short_sentence_clusters(sentences),
             "bigram_repetition": find_bigram_repetition(clean),
             "markdown_tells": find_markdown_tells(text),
         },
@@ -948,11 +973,14 @@ def analyze(text, genre=None, strict_em_dash=False):
         + len(result["high"]["setup_reveal_endings"])
         + len(result["high"]["fabricated_cases"])
         + len(result["high"]["buzzword_density"])
+        + len(result["high"]["negation_reversals"])
+        + len(result["high"]["cross_sentence_negation"])
+        + len(result["high"]["short_sentence_clusters_h"])
     )
     medium_count = (
-        len(result["medium"]["negation_reversals"])
-        + len(result["medium"]["dramatic_countdown"])
+        len(result["medium"]["dramatic_countdown"])
         + len(result["medium"]["anaphora"])
+        + len(result["medium"]["short_sentence_clusters_m"])
         + len(result["medium"]["two_word_punchlines"])
         + len(result["medium"]["three_beat_stacks"])
         + sum(c for _, c in result["medium"]["verbs_m"])
@@ -973,7 +1001,6 @@ def analyze(text, genre=None, strict_em_dash=False):
     )
     low_count = (
         sum(c for _, c in result["low"]["magic_adverbs"])
-        + len(result["low"]["short_sentence_clusters"])
         + len(result["low"]["bigram_repetition"])
         + len(result["low"]["markdown_tells"])
     )
@@ -1059,7 +1086,8 @@ def analyze(text, genre=None, strict_em_dash=False):
     structural_count = (
         sum(c for _, c, _ in result["high"]["copula_avoidance"])
         + len(result["high"]["ing_tails"])
-        + len(result["medium"]["negation_reversals"])
+        + len(result["high"]["negation_reversals"])
+        + len(result["high"]["cross_sentence_negation"])
         + len(result["medium"]["anaphora"])
         + result["medium"]["false_range"]
         + result["medium"]["while_openers"]
@@ -1202,10 +1230,25 @@ def format_human(result):
     # Medium severity
     m = result["medium"]
     lines.append("--- MEDIUM SEVERITY ---")
-    if m["negation_reversals"]:
-        lines.append("Negation reversal candidates:")
-        for idx, sentence, pat in m["negation_reversals"]:
+    # Negation reversals (now in high) — show in high section block instead
+    if h.get("negation_reversals"):
+        lines.append("Negation reversal candidates (high severity):")
+        for idx, sentence, pat in h["negation_reversals"]:
             lines.append(f"  - Sentence {idx+1}: \"{sentence[:120]}\"")
+    if h.get("cross_sentence_negation"):
+        lines.append("Cross-sentence negation reversal (X isn't Y. It's Z.):")
+        for idx, cur, nxt in h["cross_sentence_negation"]:
+            lines.append(f"  - \"{cur[:80]}\" → \"{nxt[:80]}\"")
+    if h.get("short_sentence_clusters_h"):
+        lines.append("Short-sentence clusters (4+ in a row, high severity):")
+        for run in h["short_sentence_clusters_h"][:2]:
+            for idx, sent, wc in run:
+                lines.append(f"  - Sentence {idx+1} ({wc}w): \"{sent[:80]}\"")
+    if m.get("short_sentence_clusters_m"):
+        lines.append("Short-sentence clusters (3 in a row):")
+        for run in m["short_sentence_clusters_m"][:2]:
+            for idx, sent, wc in run:
+                lines.append(f"  - Sentence {idx+1} ({wc}w): \"{sent[:80]}\"")
     if m["dramatic_countdown"]:
         lines.append("Dramatic countdown candidates:")
         for idx, sents in m["dramatic_countdown"]:
@@ -1275,11 +1318,6 @@ def format_human(result):
         for adv, count in l["magic_adverbs"]:
             note = " (survives only when contrasting reality with theory)" if adv == "actually" else ""
             lines.append(f"  - \"{adv}\" ×{count}{note}")
-    if l["short_sentence_clusters"]:
-        lines.append(f"Short-sentence clusters: {len(l['short_sentence_clusters'])}")
-        for run in l["short_sentence_clusters"][:2]:
-            for idx, sent, wc in run:
-                lines.append(f"  - Sentence {idx+1} ({wc}w): \"{sent[:80]}\"")
     if l["bigram_repetition"]:
         lines.append(f"Bigram repetition (5+ uses): {len(l['bigram_repetition'])}")
         for bg, count in l["bigram_repetition"][:5]:
