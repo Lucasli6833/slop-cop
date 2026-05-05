@@ -12,30 +12,34 @@
 
 ---
 
-**slop-cop** checks your writing for two things:
+**slop-cop** is a Claude Code skill that catches sloppy writing before it ships.
 
-- **Does it sound like AI wrote it?** This is the AI-Slop test.
-- **Can a real person read it?** This is the Comprehension test.
+Our feeds are becoming shit. Our websites are becoming shit. Our repos are becoming shit. AI didn't make writing harder, it made writing easier, and now everyone uses the same shortcuts, the same shapes, the same words. Open ten landing pages in a row and you can't tell them apart.
 
-A piece can pass one test and fail the other. A blog post might pass the AI test but be too hard to read. A casual note might fail the AI test but read just fine.
+slop-cop runs two tests on a draft:
+
+- **Does it sound like AI wrote it?** (the AI-Slop test)
+- **Can a real person read it?** (the Comprehension test)
+
+A piece can pass one test and fail the other. A blog post might pass the AI test but be too hard to read because it stuffs nine short forms into one paragraph. A casual note might fail the AI test but read just fine.
 
 Hand it a draft. You get back two scores, the words to cut, a guess at which AI made it, and one clear next step.
 
-Both tests use density. One `delve` in 1,000 words won't fail you. What matters is how often the patterns pile up close together. This README scores LOW on its own test.
+Both tests use density. What matters is how often the patterns pile up close together, not whether one bad word shows up once. This README scores LOW on its own test.
 
 ## Why I built this
 
-People kept saying my writing sounded like ChatGPT. It didn't. I wrote it. But the words stung because AI prose has crept into how everyone writes now. The em dashes. The "It's not X, it's Y." The safe hedge-stacking. Even people who hate AI slop are writing in it.
+To make my own websites less shit. To make my clients' websites less shit. To stop my LinkedIn feed from drowning in copy-paste slop. That is the whole point.
 
-Every tool I tried said the same thing: ban these words. That's silly. The famous bad-word list is just a list of words. The real signal is how often the patterns pile up in one spot. So I built the first test to count and flag the spikes.
+Yes, AI wrote parts of this README. That is not the problem. The problem is AI prose that nobody catches: the safe, hedge-stacked, em-dash-heavy paragraph where every line is grammatically clean but the whole thing is forgettable.
 
-While using it, I saw something most tools miss. Some writing isn't AI-shaped at all but still fails the reader. A short summary with seven short forms the reader has to guess. A pitch with twelve names the reader has never heard. The kind of prose that ships because it looks tight, but the reader bounces in five seconds.
+I run slop-cop against my own work every day. Landing pages, blog posts, READMEs, pitch decks, cold emails. It catches the stuff I would have shipped. It tells me which paragraph is too dense for a new reader, which sentence sounds AI-shaped, which heading buries the point.
 
-So I added a second test. It doesn't matter who wrote it. The only question is whether a real person can follow it.
+If someone uses this to score other people's writing, fine. But the first job is policing yourself before you ship.
 
 ## Why I keep updating it
 
-The first version had a list of cliché words. Six months later, careful writers had learned to dodge them. The tells that survive now are about sentence shape: skipping `is`, stacking three soft words, the "It's not X, it's Y" flip. Writers learn. Models change. The list has to keep moving or it ages out fast.
+I run it daily, so I find new things every week. A pattern I missed. A false alarm on real human prose. A new model with new tells. The list moves with the work. Expect a lot of changes.
 
 ## Sponsors
 
