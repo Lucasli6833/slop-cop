@@ -1,8 +1,11 @@
-# AI Slop Detector — Research Sources
+# slop-cop — Research Sources
 
-This skill is grounded in roughly 50 published sources spanning peer-reviewed linguistic research, the canonical Wikipedia "Signs of AI writing" guide, AI-detector vendor methodology, practitioner literature, and viral takedowns in popular press. The catalog is current through early 2026.
+This skill is grounded in roughly 130 published sources across two axes:
 
-Each source is annotated with a one-line description of what it contributes. URLs are listed verbatim; if a link rots, the title and description should be searchable.
+- **AI-Slop axis** (sections 1–5): roughly 50 sources spanning peer-reviewed linguistic research, the canonical Wikipedia "Signs of AI writing" guide, AI-detector vendor methodology, practitioner literature, and viral takedowns in popular press.
+- **Comprehension axis** (sections 6–10): roughly 80 sources spanning readability formula primary literature, cognitive load and working memory psychology, plain-language standards from government and accessibility bodies, web-reading research, and writing-craft canon.
+
+The catalog is current through early 2026. Each source is annotated with a one-line description of what it contributes. URLs are listed verbatim; if a link rots, the title and description should be searchable.
 
 ---
 
@@ -102,9 +105,104 @@ Cultural-moment documentation. Useful for understanding which tells went viral a
 
 ---
 
+---
+
+## 6. Comprehension axis — readability formulas (primary literature)
+
+The eight metrics in `readability-metrics.md` come from this body of work. Treat formula scores as diagnostic, not decisive — every primary source notes domain-specific limits.
+
+- **Flesch (1948): A new readability yardstick** — *Journal of Applied Psychology* 32(3). The original Flesch Reading Ease formula (206.835 − 1.015 ASL − 84.6 ASW). Validated on news, business, and government writing. [DOI](https://doi.org/10.1037/h0057532)
+- **Kincaid, Fishburne, Rogers, Chissom (1975): Derivation of new readability formulas** — Naval Technical Training, Research Branch Report 8-75. Source for the Flesch-Kincaid Grade Level formula used by US federal documents and Microsoft Word. [PDF](https://stars.library.ucf.edu/istlibrary/56/)
+- **McLaughlin (1969): SMOG grading — A new readability formula** — *Journal of Reading* 12(8). Polysyllable-count formula stable above ~30 sentences. [JSTOR](https://www.jstor.org/stable/40011226)
+- **Coleman & Liau (1975): A computer readability formula** — *Journal of Applied Psychology* 60(2). Letters-per-100-words and sentences-per-100-words formula; deliberately avoids syllable counting. [DOI](https://doi.org/10.1037/h0076540)
+- **Dale & Chall (1948, revised 1995): A formula for predicting readability** — *Educational Research Bulletin* 27(1). Uses a curated 3,000-word "easy" wordlist. The 1995 revision is the canonical version. [Original](https://www.jstor.org/stable/1473669)
+- **DuBay (2004): The principles of readability** — Comprehensive review of 200+ readability formulas, their derivation, and validation. Best single overview of the field's history and limits. [PDF](https://files.eric.ed.gov/fulltext/ED490073.pdf)
+- **Halliday & Hasan (1976): Cohesion in English** — Longman. Foundation for lexical density measurement (content words ÷ total words). The original definition that automated tools approximate. [Worldcat](https://www.worldcat.org/title/cohesion-in-english/oclc/1947985)
+- **Ure (1971): Lexical density and register differentiation** — In *Applications of Linguistics*. Empirical study showing 40–55% lexical density for spoken/casual prose, 55–65% for written/academic. Source for our audience targets. [Citation](https://scholar.google.com/scholar?q=Ure+1971+lexical+density)
+- **Bormuth (1969): Cloze readability procedure** — *Reading Research Quarterly*. Establishes the cloze test as the validation gold-standard for readability formulas. [JSTOR](https://www.jstor.org/stable/747084)
+
+---
+
+## 7. Comprehension axis — cognitive psychology (working memory, load, and processing)
+
+These papers ground the "why" — *why* dense acronyms or run-on sentences cause comprehension failure, not just style preference.
+
+- **Miller (1956): The magical number seven, plus or minus two** — *Psychological Review* 63(2). The classic working-memory paper. Foundation for chunking thresholds in our F-group patterns. [DOI](https://doi.org/10.1037/h0043158)
+- **Cowan (2001): The magical number 4 in short-term memory** — *Behavioral and Brain Sciences* 24(1). Modern revision of Miller's number. The 4-chunk limit drives our acronym and named-entity density caps. [DOI](https://doi.org/10.1017/S0140525X01003922)
+- **Baddeley (2000): The episodic buffer — A new component of working memory?** — *Trends in Cognitive Sciences* 4(11). Explains why integrating new entities while parsing syntax is so costly. [DOI](https://doi.org/10.1016/S1364-6613(00)01538-2)
+- **Sweller (1988): Cognitive load during problem solving** — *Cognitive Science* 12(2). Original cognitive load theory. Distinguishes intrinsic, extraneous, and germane load — extraneous load is what bad prose imposes. [DOI](https://doi.org/10.1207/s15516709cog1202_4)
+- **Sweller, van Merriënboer, Paas (1998): Cognitive architecture and instructional design** — *Educational Psychology Review* 10(3). Foundational for the "split-attention effect" — relevant to our forward-reference and undefined-acronym patterns. [DOI](https://doi.org/10.1023/A:1022193728205)
+- **Just & Carpenter (1992): A capacity theory of comprehension** — *Psychological Review* 99(1). Demonstrates working-memory capacity as the bottleneck for sentence comprehension. [DOI](https://doi.org/10.1037/0033-295X.99.1.122)
+- **Gibson (1998): Linguistic complexity — Locality of syntactic dependencies** — *Cognition* 68(1). The Dependency Locality Theory: long syntactic dependencies (subject-verb separation, embedded clauses) tax working memory. Drives the run-on and long-sentence patterns. [DOI](https://doi.org/10.1016/S0010-0277(98)00034-1)
+- **Pinker (2014): The Sense of Style** — Viking. Source for "curse of knowledge" framing — experts forget what was hard to learn. Drives the H-group audience-assumption patterns. [Worldcat](https://www.worldcat.org/title/sense-of-style/oclc/872364305)
+- **Chase & Simon (1973): Perception in chess** — *Cognitive Psychology* 4(1). Original chunking-by-expertise study. Why writers in their own field cannot judge a fresh reader's comprehension. [DOI](https://doi.org/10.1016/0010-0285(73)90004-2)
+
+---
+
+## 8. Comprehension axis — plain-language standards and government style guides
+
+Empirical and policy-driven thresholds. These are what real public-facing institutions enforce.
+
+- **Plain Writing Act of 2010 (US Public Law 111-274)** — Federal law requiring agencies to use plain language. Implementation guidance recommends 8th-grade reading level. [Text](https://www.govinfo.gov/app/details/PLAW-111publ274)
+- **plainlanguage.gov: Federal plain language guidelines** — The US federal style guide for plain writing. Active voice, short sentences, 8th-grade target. [Site](https://www.plainlanguage.gov/guidelines/)
+- **GOV.UK: Content design — Style and tone** — UK government style guide. Hard targets: 9-year-old reading age for most content. Strict on jargon and acronyms. [Site](https://www.gov.uk/guidance/content-design/writing-for-gov-uk)
+- **GOV.UK: Service Manual — Writing for users** — Companion guide for service designers. Source of the "explain on first use, abbreviate on second" rule. [Site](https://www.gov.uk/service-manual/design/writing-for-user-interfaces)
+- **WCAG 2.1 Success Criterion 3.1.5 (Reading Level)** — W3C accessibility standard. AAA-conformant content must not exceed lower-secondary reading ability (~9th grade) or provide a supplemental version. [Spec](https://www.w3.org/TR/WCAG21/#reading-level)
+- **WCAG 2.1 Success Criterion 3.1.3 (Unusual Words)** — AAA: provide definition mechanism for jargon, idioms, and abbreviations. Source for our undefined-acronym threshold. [Spec](https://www.w3.org/TR/WCAG21/#unusual-words)
+- **WCAG 2.1 Success Criterion 3.1.4 (Abbreviations)** — AAA: provide expansion mechanism for abbreviations. [Spec](https://www.w3.org/TR/WCAG21/#abbreviations)
+- **CDC: Clear Communication Index** — US Centers for Disease Control framework with 4-question scoring system for health-communication content. Strong on numeric framing (which informs our stat-bombing pattern). [PDF](https://www.cdc.gov/ccindex/pdf/full-index.pdf)
+- **NIH: Clear and simple — Developing effective print materials for low-literate readers** — National Institutes of Health guide; source for plain-language thresholds in healthcare audience. [Archive](https://www.cancer.gov/publications/health-communication/clear-and-simple)
+- **EU: Joint Practical Guide for the drafting of EU legislation** — Codifies plain-drafting rules across 24 EU languages. Notable for explicit caps on sentence length in legal text. [PDF](https://eur-lex.europa.eu/content/techleg/EN-legislative-drafting-guide.pdf)
+- **Center for Plain Language: 2024 Federal Plain Language Report Card** — Annual audit of US federal agency compliance with plain-writing rules. Data on which patterns reliably tank scores. [Site](https://centerforplainlanguage.org/2024-federal-plain-language-report-card/)
+- **Australian Government Style Manual** — Modern reference for government writing; particularly clear on the difference between "writing simply" and "writing simplistically." [Site](https://www.stylemanual.gov.au/)
+
+---
+
+## 9. Comprehension axis — web reading research and information architecture
+
+How people actually read on screens. Drives the I-group structural patterns (no skim layer, hierarchy collapse, wall-of-text).
+
+- **Nielsen (1997): How users read on the web** — Nielsen Norman Group. The original eye-tracking finding: 79% of users scan, only 16% read word-for-word. [Article](https://www.nngroup.com/articles/how-users-read-on-the-web/)
+- **Nielsen (2006): F-shaped pattern for reading web content** — NN/g. The classic eye-tracking heatmap study showing horizontal-then-vertical scanning. Foundation for the "no skim layer" pattern. [Article](https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/)
+- **Pernice (2017): F-pattern reading on the web debunked?** — NN/g follow-up confirming the F-pattern still applies but is interrupted by good visual hierarchy (headings, lists, emphasis). [Article](https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content-discovered/)
+- **Nielsen (2008): How little do users read?** — Empirical study showing readers absorb only ~20% of text on a typical page. Justifies our short-paragraph and skim-layer thresholds. [Article](https://www.nngroup.com/articles/how-little-do-users-read/)
+- **Loranger & Nielsen (2013): Plain language is for everyone, even experts** — NN/g. Demonstrates that even subject-matter experts prefer simpler prose for fast scanning. Counters the "my audience can handle complexity" defense. [Article](https://www.nngroup.com/articles/plain-language-experts/)
+- **Krug (2014): Don't Make Me Think (3rd ed.)** — New Riders. Canonical book on web usability. Foundation for "scannability over readability" framing. [Worldcat](https://www.worldcat.org/title/dont-make-me-think-revisited/oclc/879583144)
+- **Wilkinson, Payne, Heinz, Stoops (2011): Online reading vs paper reading** — *Journal of Computing in Higher Education* 23(2). Shows comprehension drops 20–30% when the same text is read on screen vs paper. [DOI](https://doi.org/10.1007/s12528-011-9050-y)
+- **Mangen, Walgermo, Brønnick (2013): Reading linear text on paper vs computer screen** — *International Journal of Educational Research* 58. Key finding: hypertext and on-screen formats fragment reading. [DOI](https://doi.org/10.1016/j.ijer.2012.12.002)
+- **GOV.UK Design System: Typography** — Codifies a 75-character measure (line length) cap based on legibility research. Relevant to wall-of-text and paragraph-length patterns. [Site](https://design-system.service.gov.uk/styles/typography/)
+
+---
+
+## 10. Comprehension axis — writing-craft canon and editorial practice
+
+Writers and editors are the practical authority on what creates and removes friction. These overlap with section 4 (practitioner AI-slop sources) but focus specifically on comprehension and clarity.
+
+- **Strunk & White (1959): The Elements of Style** — Macmillan. The classic. Source for "omit needless words," "use the active voice," and the active-vs-passive heuristics. [Worldcat](https://www.worldcat.org/title/elements-of-style/oclc/796366)
+- **Williams & Bizup (2017): Style — Lessons in Clarity and Grace (12th ed.)** — Pearson. The most rigorous modern style guide. Source for nominalization detection ("zombie nouns") and old-information-first principle. [Worldcat](https://www.worldcat.org/title/style-lessons-in-clarity-and-grace/oclc/968707437)
+- **Pinker (2014): Why academic writing stinks** — *Chronicle of Higher Education*. Companion essay to *The Sense of Style*. Key on "curse of knowledge" and metadiscourse. [Article](https://www.chronicle.com/article/why-academics-stink-at-writing/)
+- **Sword (2012): Stylish Academic Writing** — Harvard University Press. Empirical study of 1,000 published academic articles. Documents which patterns predict reader engagement. [Worldcat](https://www.worldcat.org/title/stylish-academic-writing/oclc/766957322)
+- **Sword: The Writer's Diet** — Online tool implementing Sword's friction-detection heuristics: be-verbs, abstract nouns, prepositions, "it/this/that," waste words. Algorithmic precursor to several of our J-group patterns. [Site](https://www.writersdiet.com/test.php)
+- **Hemingway Editor: Method documentation** — Web tool that flags adverbs, passive voice, complex sentences, hard-to-read sentences. Direct ancestor of our long-sentence and decorative-qualifier patterns. [Site](https://hemingwayapp.com/)
+- **Garner (2016): Garner's Modern English Usage (4th ed.)** — Oxford. Exhaustive reference on usage; particularly strong on bureaucratic prose. Source for several telegraphic-colon and parallelism-failure patterns. [Worldcat](https://www.worldcat.org/title/garners-modern-english-usage/oclc/930506586)
+- **Zinsser (2006): On Writing Well (30th ann. ed.)** — Harper. Practical canon. Foundation for the "every sentence should pull its own weight" heuristic embedded in our density scoring. [Worldcat](https://www.worldcat.org/title/on-writing-well/oclc/61362317)
+- **Lanham (2006): Revising Prose (5th ed.)** — Pearson. Introduces the "Paramedic Method" for sentence revision: circle prepositions, find "is," find action, kick the doer back to the front. Algorithmic source for several J-group patterns. [Worldcat](https://www.worldcat.org/title/revising-prose/oclc/61130601)
+- **Provost (1985): 100 Ways to Improve Your Writing** — Mentor. Pithy practitioner reference. Source for paragraph-rhythm and sentence-length-variance heuristics that complement our burstiness measure. [Worldcat](https://www.worldcat.org/title/100-ways-to-improve-your-writing/oclc/13109293)
+- **Klare (1976): A second look at the validity of readability formulas** — *Journal of Reading Behavior* 8(2). Critical review showing that formulas predict difficulty but not comprehension; backs our "metrics calibrate, patterns score" architecture. [DOI](https://doi.org/10.1080/10862967609547179)
+- **Bailin & Grafstein (2016): Readability — Text and Context** — Palgrave Macmillan. Modern critique of readability formulas; argues for context-sensitive measurement. Strongest argument for our audience-calibration approach. [Worldcat](https://www.worldcat.org/title/readability-text-and-context/oclc/953461103)
+- **Chartered Institute of Editing and Proofreading: Editorial Style Guide** — UK professional standards body. Practical authority on what editors actually correct. [Site](https://www.ciep.uk/standards/)
+
+---
+
 ## How to use this file
 
-The other reference files (`patterns.md`, `vocabulary.md`, `formatting-tells.md`, `calibration.md`) cite specific sources for specific claims. When you see a source name there, this file is the master index — find it here for full title and link.
+The reference files cite specific sources for specific claims. Each axis has its own catalog and citation conventions:
+
+- **AI-Slop axis**: `patterns.md`, `vocabulary.md`, `formatting-tells.md` cite sections 1–5 above.
+- **Comprehension axis**: `comprehension.md` and `readability-metrics.md` cite sections 6–10 above.
+- **`calibration.md`**: cross-references both axes.
+
+When you see a source name in a reference file, this file is the master index — find it here for full title and link.
 
 Three pillars of evidence:
 

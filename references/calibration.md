@@ -1,21 +1,37 @@
-# AI Slop Detector — Calibration
+# slop-cop — Calibration
 
-The catalog of patterns and vocabulary is necessary but not sufficient. Every tell on every list has legitimate human use somewhere. The signal is **density** — concentration of tells per unit of text — adjusted for genre, contested-ness, and the model that likely produced the draft.
+slop-cop scores prose on **two parallel axes**:
 
-This file governs how the audit converts a list of detected violations into a verdict. Read this before producing any audit report. Most "AI tell" lists ignore calibration; that's why they fire on Wikipedia text and miss prose written by sophisticated LLM users.
+- **AI-Slop** — does this read like AI wrote it? (texture, rhythm, vocabulary tells, formatting)
+- **Comprehension** — can a fresh reader follow this? (acronyms, named-entity bombing, telegraphic compression, missing thesis, structure, readability)
+
+Each axis has its own catalog, its own density formula, and its own verdict. A piece can fail one and pass the other:
+
+- Dense academic prose → may PASS AI-Slop (no `delve`, no em-dash clusters) but CRITICAL Comprehension (jargon-bombed, no thesis)
+- Sycophantic ChatGPT marketing → CRITICAL AI-Slop, MEDIUM Comprehension
+- Hand-written cover letter → PASS both
+- Twitter-thread summary written by a human in a hurry → LOW AI-Slop, HIGH Comprehension (telegraphic, named-entity bombing)
+
+The audit reports both verdicts. The combined recommendation is driven by whichever is worse.
 
 ---
 
 ## Table of contents
 
-1. [Density-based scoring](#1-density-based-scoring)
-2. [Severity tiers explicit](#2-severity-tiers-explicit)
+### AI-Slop axis (sections 1–8)
+1. [AI-Slop density scoring](#1-density-based-scoring)
+2. [Severity tiers (AI-Slop)](#2-severity-tiers-explicit)
 3. [Genre adjustments](#3-genre-adjustments)
 4. [Model fingerprints](#4-model-fingerprints)
 5. [Contested tells](#5-contested-tells)
 6. [The sanding-off problem](#6-the-sanding-off-problem)
 7. [The uncanny-valley rule](#7-the-uncanny-valley-rule)
 8. [Burstiness approximation](#8-burstiness-approximation)
+
+### Comprehension axis (sections 9–11)
+9. [Comprehension density scoring](#9-comprehension-density-scoring)
+10. [Audience calibration](#10-audience-calibration)
+11. [Cross-axis recommendations](#11-cross-axis-recommendations)
 
 ---
 
@@ -291,13 +307,147 @@ GPTZero, Pangram, and Quillbot all document burstiness as a metric and its limit
 
 ## How to use this file during an audit
 
-1. Run the scanner. It produces raw counts of H / M / L tells, plus burstiness.
-2. Compute the density score using the formula in §1.
-3. Apply genre adjustments (§3) — the scanner accepts `--genre` or the audit infers from cues.
+1. Run the scanner. It produces raw counts of H / M / L tells per axis, plus burstiness, readability metrics, and density signals.
+2. Compute both density scores (AI-Slop §1, Comprehension §9).
+3. Apply genre adjustments (§3) and audience calibration (§10).
 4. Check for compound triggers and the uncanny-valley condition (§7).
 5. Check for sanded-prose signature (§6).
 6. Identify the model fingerprint if present (§4).
 7. Note contested tells in the calibration section of the report (§5).
-8. Output the verdict.
+8. Output **both verdicts** plus the cross-axis recommendation (§11).
 
-The audit report template (`audit-report-template.md`) defines the exact output format, including the Calibration Notes section that surfaces all of the above.
+The audit report template (`audit-report-template.md`) defines the exact output format, including the dual-verdict header and the Calibration Notes section that surfaces all of the above.
+
+---
+
+## 9. Comprehension density scoring
+
+The comprehension axis uses the same density formula as the AI-Slop axis but counts a different catalog (the patterns in `comprehension.md`).
+
+### The formula
+
+```
+comp_density = (compH × 3) + (compM × 1) + (compL × 0.25)    per 500 words
+            = ((compH × 3) + (compM × 1) + (compL × 0.25)) / U   for the full draft
+```
+
+Where:
+- `compH` = high-severity comprehension violations (acronym stacking, named-entity bombing, stat bombing, telegraphic colon-labeling, density-without-headings, long sentences, run-on sentences, coined terms used as known, curse of knowledge, buried lede, missing thesis, no topic sentence, first sentence doesn't hook)
+- `compM` = medium-severity (wall of text, list-pretending-to-be-prose, definition-by-synonym, mixed audience, forward-reference, missing transitions, hierarchy collapse, no concrete examples, nut-graf missing, no skim layer, old-to-new inversion, parallelism failure, passive voice excess, nominalization, abstract noun stacking, hedge stacking, ambiguous pronoun, dangling modifier)
+- `compL` = low-severity (glue-word bloat, prose-pretending-to-be-list, decorative qualifiers, negative construction)
+
+### Verdict thresholds
+
+Same scale as AI-Slop:
+
+| comp_density | Verdict | Action |
+|---|---|---|
+| 0–2 | PASS | Reader can follow it; polish at most |
+| 2–5 | LOW | Spot-fix listed items |
+| 5–10 | MEDIUM | Significant cleanup; reader will struggle in places |
+| 10–18 | HIGH | Substantial revision; reader will lose the thread |
+| 18+ | CRITICAL | Recommend rewrite; cold reader has no chance |
+
+### Compound triggers (escalate one tier)
+
+- 3+ undefined acronyms in any 100-word window → escalate
+- 5+ named entities introduced without context in any 100-word window → escalate
+- 3+ numeric claims in a single sentence (no comparative anchor) → escalate
+- 3+ telegraphic colon-labels in one paragraph → escalate
+- Any sentence over 40 words → escalate
+- Any paragraph over 150 words with no subheading → escalate
+- Combined: any 100-word window with H-density > 5 → escalate
+
+### Readability metric panel
+
+The scanner also computes 8 readability metrics (Flesch RE, FK Grade, SMOG, Coleman-Liau, Dale-Chall, lexical density, avg sentence length, passive voice %) — see `readability-metrics.md`. They appear in the audit report as a diagnostic panel under the comprehension verdict, but they don't directly feed the verdict score. The catalog patterns drive the score; the metrics calibrate.
+
+When a piece scores PASS on patterns but the metrics show grade 16 / lexical density 68% / avg sentence 35 words, the audit notes the disconnect — typically academic prose where every individual sentence is fine but the cumulative texture is opaque.
+
+### Audience-aware scoring
+
+The verdict is then adjusted by audience (see §10). A grade-12 score for technical docs is fine; for marketing copy it's HIGH.
+
+---
+
+## 10. Audience calibration
+
+The same prose hits different verdicts depending on who's supposed to read it. Audience is the most important calibration input.
+
+### Threshold table by audience
+
+| Audience | Flesch RE target | FK Grade target | Avg sentence | Passive % | Acronyms |
+|---|---|---|---|---|---|
+| **General web / blog** | 60–70 | 7–9 | 15–18 | <10% | Define all on first use |
+| **Marketing copy** | 65–80 | 6–8 | 12–16 | <5% | Avoid; spell out every term |
+| **GOV.UK / civic / accessibility (WCAG AAA)** | 70+ | 4–6 | 12–15 | <5% | Spell out always |
+| **Healthcare patient-facing** | 70–80 | 6–8 | 12–15 | <5% | Spell out always |
+| **Tech blog (developer audience)** | 50–65 | 9–12 | 18–22 | <10% | Define non-obvious only; standard ones (API, JSON, HTML, CSS) OK |
+| **Internal technical docs** | 40–55 | 11–14 | 18–25 | <15% | Industry-standard OK |
+| **Academic / scientific** | 30–50 | 12–16 | 20–28 | 10–20% | Field-standard OK |
+
+### How to apply
+
+1. **Detect audience.** The scanner infers from cues (citation patterns, code blocks, marketing CTAs, persona pronouns). User can override with `--audience` flag.
+2. **Map metrics to targets.** For each readability metric, compute distance from the audience-specific target.
+3. **Adjust verdict.** A piece that scores HIGH on the catalog but well within the audience's metric band may be downgraded to MEDIUM. A piece that PASSes the catalog but blows the metric band by 50% may be upgraded.
+
+### Reader-test simulations (qualitative)
+
+When the scanner can't tell, fall back on these:
+
+- **Smart 12-year-old test (Feynman):** Could a smart 12-year-old or someone outside the field follow this? If you can't explain it simply, you don't truly understand it.
+- **Cold-reader test (Pinker):** Show the draft to someone who hasn't been working on it. Ask: *What's the main point? Where did you get confused? What terms did you not know?* This is the prescription for exorcising the curse of knowledge.
+- **5-second skim test:** Show the page for 5 seconds. Ask "what did you see?" Tests whether the H1, first sentence, bolded keywords, and TL;DR convey the gist. (55% of web visitors leave within 15 seconds.)
+- **Cloze test (empirical):** Delete every 6th word; have the reader fill in the blanks. Higher restoration rate = more comprehensible. >57% exact restoration = mastery.
+
+### When the audience is unknown
+
+Default to **casual** (general web/blog). It's the strictest practical baseline and produces the most actionable verdict for unspecified contexts.
+
+---
+
+## 11. Cross-axis recommendations
+
+When both verdicts are computed, the audit produces a single combined recommendation based on whichever axis is worse. The matrix:
+
+| AI-Slop | Comprehension | Combined recommendation |
+|---|---|---|
+| PASS | PASS | Ship it. Polish-pass at most. |
+| PASS / LOW | LOW | Spot-fix the comprehension items. Reader will follow with minor friction. |
+| PASS / LOW | MEDIUM | Significant comprehension cleanup. Define acronyms, break up paragraphs, add a thesis. |
+| PASS / LOW | HIGH / CRITICAL | Comprehension rewrite. The texture is fine but the reader can't follow. |
+| MEDIUM | PASS / LOW | Slop spot-fix. Replace `delve`/em-dashes/sycophancy. Reader can follow already. |
+| MEDIUM | MEDIUM | Both cleanup. Often the same fixes (telegraphic em-dashes hurt both axes). |
+| HIGH / CRITICAL | PASS / LOW | Slop rewrite. Replace AI texture; reader-friendly structure already exists. |
+| HIGH / CRITICAL | HIGH / CRITICAL | Full rewrite. Both axes failing = the prose isn't salvageable through editing. |
+
+### Top-fix combination
+
+The audit's "Top 3 fixes" list pulls from both axes, ordered by impact:
+
+1. The single highest-impact item from whichever axis scored worse
+2. The highest-impact item from the other axis
+3. The next highest-impact item from whichever axis scored worse
+
+This way the reader gets the most leverage in the smallest read.
+
+### What "passes" means in this dual-axis world
+
+A piece "passes slop-cop" when **both** verdicts are PASS or LOW. A piece can technically pass the AI-Slop axis with HIGH Comprehension and still be unshippable for any audience that isn't already initiated.
+
+This is the gap that drove v2: the tool used to say "PASS" on prose that no fresh reader could follow. Two axes fix the gap.
+
+---
+
+## Sources for comprehension calibration
+
+- [CDC Clear Communication Index](https://www.cdc.gov/ccindex/tool/index.html) — reading-level benchmarks for healthcare
+- [GOV.UK style guide](https://www.gov.uk/guidance/style-guide) — civic-content readability targets
+- [Microsoft style guide](https://learn.microsoft.com/en-us/style-guide/) — technical-content guidance
+- [WCAG 3.1.5 Reading Level (AAA)](https://www.w3.org/WAI/WCAG21/Understanding/reading-level.html) — accessibility threshold
+- [Pinker on the curse of knowledge — Harvard](https://news.harvard.edu/gazette/story/2012/11/exorcising-the-curse-of-knowledge/)
+- [Cloze test — NN/g](https://www.nngroup.com/articles/cloze-test-reading-comprehension/)
+- [F-pattern reading — NN/g](https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/)
+
+The full bibliography is in `sources.md`.
