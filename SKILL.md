@@ -20,11 +20,13 @@ Single instances aren't a signal. Density is. Both axes use density-based scorin
 
 ## Why this skill exists
 
-I kept getting the same complaint about my writing: "this sounds like ChatGPT." It didn't. I wrote it. The texture of AI prose has crept into how everyone writes now, and tools that just ban words like `delve` flag legitimate writing while missing the actual problem, which is how patterns pile up inside a paragraph.
+Our feeds are becoming shit. Our websites are becoming shit. Our repos are becoming shit. AI didn't make writing harder, it made writing easier, and now everyone uses the same shortcuts, the same shapes, the same words. Open ten landing pages in a row and you can't tell them apart.
 
-While building the first axis I noticed a second issue the AI-detection world ignores. Some writing isn't AI-shaped at all and still doesn't read. A founder's TL;DR with seven undefined acronyms in three sentences. A B2B pitch with twelve named entities the reader has never heard of. So this skill runs two checks: AI texture and reader comprehension. They catch different problems.
+I built this skill to make my own websites less shit, my clients' websites less shit, and my LinkedIn feed less of a copy-paste graveyard. Yes, AI wrote parts of this skill. That is not the problem. The problem is AI prose nobody catches: the safe, hedge-stacked, em-dash-heavy paragraph where every line is grammatically clean but the whole thing is forgettable.
 
-The catalog has to keep moving. Six months after v1, the famous tells (`delve`, `tapestry`, `intricate`) were all sanded; careful writers prompted around them. The survivors today are structural: copula avoidance, hedge stacks of three, "It's not X, it's Y" reversals. Writers dodge them, models change underneath, and a static catalog from 2023 is mostly noise by 2026.
+I run this against my own work every day. Landing pages, blog posts, READMEs, pitch decks, cold emails. It catches the stuff I would have shipped. If someone uses it to score other people's writing, fine. The first job is policing yourself before you ship.
+
+Running it daily means finding new things every week. A pattern I missed. A false alarm on real human prose. A new model with new tells. The list moves with the work. Expect a lot of changes.
 
 ---
 
